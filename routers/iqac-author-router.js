@@ -17,6 +17,20 @@ router.get("/profile-of-institution/basic-information",iqacAuthorController.getA
 
 //b)For Communication
 router.post("/profile-of-institution/for-communication",iqacAuthorController.createForCommunication)
-// router.put("/profile-of-institution/for-communication/:id",iqacAuthorController.updateForCommunication)
+router.put("/profile-of-institution/for-communication/:id",iqacAuthorController.updateForCommunication)
+router.get("/profile-of-institution/for-communication/:id",iqacAuthorController.getForCommunicationById)
+router.get("/profile-of-institution/for-communication",iqacAuthorController.getAllForCommunications)
+
+//c)Status of Institution
+router.post("/profile-of-institution/status-of-institution",iqacAuthorController.createStatusOfInstitution)
+router.put("/profile-of-institution/status-of-institution/:id",iqacAuthorController.updateStatusOfInstitution)
+router.get("/profile-of-institution/status-of-institution/:id",iqacAuthorController.getStatusOfInstitutionById)
+router.get("/profile-of-institution/status-of-institution",iqacAuthorController.getAllStatusOfInstitution)
+
+//d) Type of Institution
+router.post("/profile-of-institution/type-of-institution",iqacAuthorController.createTypeOfInstitution)
+// router.put("/profile-of-institution/type-of-institution/:id",iqacAuthorController.updateTypeOfInstitution)
+// router.get("/profile-of-institution/type-of-institution/:id",iqacAuthorController.getTypeOfInstitutionById)
+// router.get("/profile-of-institution/type-of-institution",iqacAuthorController.getAllTypeOfInstitution)
 
 module.exports = router;

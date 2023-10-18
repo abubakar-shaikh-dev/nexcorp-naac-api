@@ -2,9 +2,12 @@ const {
   ExecutiveSummary,
   BasicInformation,
   ForCommunication,
+  StatusOfInstitution,
+  TypeOfInstitution
 } = require("../models");
 const { StatusCodes } = require("http-status-codes");
 
+//EXECUTIVE SUMMARY
 async function createExecutiveSummary(req, res) {
   const {
     introductory_note,
@@ -91,6 +94,7 @@ async function getExecutiveSummary(req, res) {
   }
 }
 
+//BASIC INFORMATION
 async function createBasicInformation(req, res) {
   const { name, address, city, state, pin, website, status } = req.body;
 
@@ -160,6 +164,7 @@ async function getAllBasicInformation(req, res) {
   }
 }
 
+//FOR COMMUNICATION
 async function createForCommunication(req, res) {
   const {
     designation,
@@ -189,7 +194,7 @@ async function createForCommunication(req, res) {
       fax,
       email,
       status,
-      institutionId: institutionId.id,
+      institutionId,
     });
 
     return res
@@ -202,6 +207,202 @@ async function createForCommunication(req, res) {
   }
 }
 
+async function updateForCommunication(req, res) {
+  const { id } = req.params; // Assuming the "id" is passed as a parameter in the request
+
+  const {
+    designation,
+    name,
+    telephone,
+    mobile,
+    fax,
+    email,
+    status,
+    institutionId,
+  } = req.body;
+
+  try {
+    const forCommunication = await ForCommunication.findByPk(id);
+
+    if (!forCommunication) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ msg: "For communication not found" });
+    }
+
+    // Update the fields with new values
+    forCommunication.designation = designation;
+    forCommunication.name = name;
+    forCommunication.telephone = telephone;
+    forCommunication.mobile = mobile;
+    forCommunication.fax = fax;
+    forCommunication.email = email;
+    forCommunication.status = status;
+    forCommunication.institutionId = institutionId;
+
+    await forCommunication.save();
+
+    return res
+      .status(StatusCodes.OK)
+      .json({ msg: "For communication updated" });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error: error.message });
+  }
+}
+
+async function getForCommunicationById(req, res) {
+  const { id } = req.params; // Assuming the "id" is passed as a parameter in the request
+
+  try {
+    // Fetch the specific "ForCommunication" record by its ID
+    const forCommunication = await ForCommunication.findByPk(id);
+
+    if (!forCommunication) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ msg: "For communication not found" });
+    }
+
+    return res.status(StatusCodes.OK).json(forCommunication);
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error: error.message });
+  }
+}
+
+async function getAllForCommunications(req, res) {
+  try {
+    // Fetch all "ForCommunication" records
+    const forCommunications = await ForCommunication.findAll();
+
+    return res.status(StatusCodes.OK).json(forCommunications);
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error: error.message });
+  }
+}
+
+//STATUS OF INSTITUTION
+async function createStatusOfInstitution(req, res) {
+  const { status, institutionId } = req.body;
+
+  try {
+    const institution = await BasicInformation.findByPk(institutionId);
+
+    if (!institution) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ msg: "Institution not found" });
+    }
+
+    await StatusOfInstitution.create({
+      status,
+      institutionId,
+    });
+
+    return res
+      .status(StatusCodes.CREATED)
+      .json({ msg: "Status of institution created" });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error: error.message });
+  }
+}
+
+async function updateStatusOfInstitution(req, res) {
+  const { id } = req.params; // Assuming the "id" is passed as a parameter in the request
+  const { status, institutionId } = req.body;
+
+  try {
+    const statusOfInstitution = await StatusOfInstitution.findByPk(id);
+
+    if (!statusOfInstitution) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ msg: "Status of institution not found" });
+    }
+
+    // Update the fields with new values
+    statusOfInstitution.status = status;
+    statusOfInstitution.institutionId = institutionId;
+
+    await statusOfInstitution.save();
+
+    return res
+      .status(StatusCodes.OK)
+      .json({ msg: "Status of institution updated" });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error: error.message });
+  }
+}
+
+async function getStatusOfInstitutionById(req,res){
+  const { id } = req.params; // Assuming the "id" is passed as a parameter in the request
+  try {
+    // Fetch the specific "StatusOfInstitution" record by its ID
+    const statusOfInstitution = await StatusOfInstitution.findByPk(id);
+    if (!statusOfInstitution) {
+      return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ msg: "Status of institution not found" });
+    }
+    return res.status(StatusCodes.OK).json(statusOfInstitution);
+    
+  } catch (error) {
+    return res
+     .status(StatusCodes.INTERNAL_SERVER_ERROR)
+     .json({ msg: "Server Error", error: error.message });
+  
+  }
+}
+
+async function getAllStatusOfInstitution(req, res) {
+  try {
+    // Fetch all "StatusOfInstitution" records
+    const statusOfInstitutions = await StatusOfInstitution.findAll();
+    return res.status(StatusCodes.OK).json(statusOfInstitutions);
+    
+  } catch (error) {
+    return res
+    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ msg: "Server Error", error: error.message });
+  }
+}
+
+//TYPE OF INSTITUTION
+async function createTypeOfInstitution(req,res){
+  const { gender,shift, institutionId } = req.body;
+
+  try {
+    const institution = await BasicInformation.findByPk(institutionId);
+    if (!institution) {
+      return res
+     .status(StatusCodes.NOT_FOUND)
+     .json({ msg: "Institution not found" });
+    }
+    await TypeOfInstitution.create({
+      gender,
+      shift,
+      institutionId,
+    });
+    return res
+    .status(StatusCodes.CREATED).json({ msg: "Type of institution created" });
+  } catch (error) {
+    return res
+    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ msg: "Server Error", error: error.message });
+  
+
+  }
+}
+
 module.exports = {
   createExecutiveSummary,
   updateExecutiveSummary,
@@ -210,4 +411,12 @@ module.exports = {
   updateBasicInformation,
   getAllBasicInformation,
   createForCommunication,
+  updateForCommunication,
+  getForCommunicationById,
+  getAllForCommunications,
+  createStatusOfInstitution,
+  updateStatusOfInstitution,
+  getStatusOfInstitutionById,
+  getAllStatusOfInstitution,
+  createTypeOfInstitution,
 };
