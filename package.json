@@ -1,0 +1,29 @@
+{
+  "name": "nexcorp_naac_api",
+  "version": "1.0.0",
+  "description": "Backend API For NEXCORP NAAC CLOUD SOFTWARE",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abubakar-shaikh-dev/nexcorp_naac_api.git"
+  },
+  "author": "Abubakar Shaikh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abubakar-shaikh-dev/nexcorp_naac_api/issues"
+  },
+  "homepage": "https://github.com/abubakar-shaikh-dev/nexcorp_naac_api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "sequelize": "^6.33.0",
+    "sequelize-cli": "^6.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
